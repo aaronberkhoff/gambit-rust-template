@@ -65,8 +65,9 @@ jobs:
 
                       cd "$TMPDIR/repo"
 
-                      # Skip if nothing changed
-                      if git diff --quiet && git diff --cached --quiet; then
+                      # Skip if nothing changed — git diff misses untracked files, so use
+                      # git status --porcelain which covers new, modified, and deleted files.
+                      if [[ -z "$(git status --porcelain)" ]]; then
                           echo "No changes for $repo, skipping."
                           cd -
                           rm -rf "$TMPDIR"
