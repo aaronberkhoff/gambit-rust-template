@@ -9,7 +9,7 @@
 {{crate_name}} can be configured via:
 
 1. A config file (`{{crate_name}}.toml` or `.{{crate_name}}.toml` in the project root)
-1. Environment variables prefixed with `{{crate_name | upper}}_`
+1. Environment variables prefixed with `{{crate_name | upcase}}_`
 1. Command-line flags (highest precedence)
 
 ## Options
@@ -18,7 +18,7 @@
 
 **Type:** `string`
 **Default:** `"default_value"`
-**Environment variable:** `{{crate_name | upper}}_OPTION_NAME`
+**Environment variable:** `{{crate_name | upcase}}_OPTION_NAME`
 
 Description of what this option controls and when you would change it.
 
@@ -33,7 +33,7 @@ ______________________________________________________________________
 
 **Type:** `bool`
 **Default:** `false`
-**Environment variable:** `{{crate_name | upper}}_ANOTHER_OPTION`
+**Environment variable:** `{{crate_name | upcase}}_ANOTHER_OPTION`
 
 Description of what this option controls.
 
