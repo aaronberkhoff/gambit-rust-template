@@ -3,7 +3,9 @@ name = "gambit-rust-template"
 description = "Opinionated Rust project template with CI, audit, and release workflows"
 # Files copied as-is without Liquid template substitution (binary and asset files).
 skip = [
-    "docs/assets/**",
+    "**/*.png",
+    "**/*.svg",
+    "**/*.ico",
 ]
 
 # Files in this list are not copied into the generated project.

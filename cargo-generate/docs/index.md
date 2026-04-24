@@ -7,6 +7,7 @@ ______________________________________________________________________
 ## Features
 
 !!! tip "What goes here"
+
     Replace this section with your project's actual feature list.
     Each feature should be a short, concrete capability statement.
 
