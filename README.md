@@ -31,11 +31,11 @@ cargo generate --git https://github.com/aaronberkhoff/gambit-rust-template \
 
 You will be prompted for:
 
-| Prompt | Used for |
-| ------ | -------- |
-| Project name | Crate name in `Cargo.toml` (must be `snake_case`) |
-| Description | `description` field in `Cargo.toml` |
-| Author | `authors` field and repository URL in `Cargo.toml` |
+| Prompt       | Used for                                           |
+| ------------ | -------------------------------------------------- |
+| Project name | Crate name in `Cargo.toml` (must be `snake_case`)  |
+| Description  | `description` field in `Cargo.toml`                |
+| Author       | `authors` field and repository URL in `Cargo.toml` |
 
 The generated project is ready to build immediately with `cargo build`.
 
@@ -43,25 +43,25 @@ The generated project is ready to build immediately with `cargo build`.
 
 ### Tooling configuration
 
-| File | Purpose |
-| ---- | ------- |
-| `rustfmt.toml` | 100-char line width, crate-level import merging, `std`/external/crate import grouping |
-| `.clippy.toml` | MSRV pinned to 1.75.0 |
-| `.cargo/config.toml` | Sparse registry protocol, explicit default target, short aliases (`t`, `c`, `f`) |
-| `deny.toml` | cargo-deny: allowed licences, banned crates, advisory policy |
+| File                 | Purpose                                                                               |
+| -------------------- | ------------------------------------------------------------------------------------- |
+| `rustfmt.toml`       | 100-char line width, crate-level import merging, `std`/external/crate import grouping |
+| `.clippy.toml`       | MSRV pinned to 1.75.0                                                                 |
+| `.cargo/config.toml` | Sparse registry protocol, explicit default target, short aliases (`t`, `c`, `f`)      |
+| `deny.toml`          | cargo-deny: allowed licences, banned crates, advisory policy                          |
 
 ### GitHub Actions workflows
 
 These files are placed in `.github/workflows/` of the generated project and kept
 up to date via the sync mechanism described below.
 
-| Workflow | Trigger | What it does |
-| -------- | ------- | ------------ |
-| `ci.yml` | push / PR to `main` | Build, test, Clippy, rustfmt, MSRV check (1.75.0), doc tests, code coverage |
-| `audit.yml` | weekly (Mon 06:00 UTC) + manual | `cargo audit` against the RustSec advisory database |
-| `deny.yml` | push / PR to `main` | `cargo deny` — licence compliance, banned deps, advisories |
-| `release.yml` | `vX.Y.Z` tag | Validates tag matches `Cargo.toml` version; builds 5-target matrix; GitHub release with SHA256 checksums |
-| `docs.yml` | push to `main` (docs changes) + manual | Builds MkDocs Material site and deploys to GitHub Pages |
+| Workflow      | Trigger                                | What it does                                                                                             |
+| ------------- | -------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `ci.yml`      | push / PR to `main`                    | Build, test, Clippy, rustfmt, MSRV check (1.75.0), doc tests, code coverage                              |
+| `audit.yml`   | weekly (Mon 06:00 UTC) + manual        | `cargo audit` against the RustSec advisory database                                                      |
+| `deny.yml`    | push / PR to `main`                    | `cargo deny` — licence compliance, banned deps, advisories                                               |
+| `release.yml` | `vX.Y.Z` tag                           | Validates tag matches `Cargo.toml` version; builds 5-target matrix; GitHub release with SHA256 checksums |
+| `docs.yml`    | push to `main` (docs changes) + manual | Builds MkDocs Material site and deploys to GitHub Pages                                                  |
 
 ### Code coverage
 
@@ -72,13 +72,13 @@ a downloadable artifact (retained for 14 days).
 
 ### Release matrix targets
 
-| Target | Runner |
-| ------ | ------ |
-| `x86_64-unknown-linux-gnu` | `ubuntu-latest` |
+| Target                      | Runner                  |
+| --------------------------- | ----------------------- |
+| `x86_64-unknown-linux-gnu`  | `ubuntu-latest`         |
 | `aarch64-unknown-linux-gnu` | `ubuntu-latest` + cross |
-| `x86_64-apple-darwin` | `macos-13` |
-| `aarch64-apple-darwin` | `macos-latest` (M1) |
-| `x86_64-pc-windows-msvc` | `windows-latest` |
+| `x86_64-apple-darwin`       | `macos-13`              |
+| `aarch64-apple-darwin`      | `macos-latest` (M1)     |
+| `x86_64-pc-windows-msvc`    | `windows-latest`        |
 
 ### Documentation site
 
@@ -86,22 +86,22 @@ Generated projects include a full [MkDocs Material](https://squidfunk.github.io/
 site under `docs/` — the same stack used by [uv](https://docs.astral.sh/uv/) and
 [Ruff](https://docs.astral.sh/ruff/). Starter pages included:
 
-| Page | Purpose |
-| ---- | ------- |
-| `docs/index.md` | Landing page with features, install snippet, quick example |
-| `docs/getting-started.md` | Installation options and first usage walkthrough |
-| `docs/configuration.md` | Configuration reference (prefilled structure to fill in) |
-| `docs/changelog.md` | Keep a Changelog format with comparison links |
+| Page                      | Purpose                                                    |
+| ------------------------- | ---------------------------------------------------------- |
+| `docs/index.md`           | Landing page with features, install snippet, quick example |
+| `docs/getting-started.md` | Installation options and first usage walkthrough           |
+| `docs/configuration.md`   | Configuration reference (prefilled structure to fill in)   |
+| `docs/changelog.md`       | Keep a Changelog format with comparison links              |
 
 To enable deployment: go to **Settings → Pages → Source** and set it to
 **GitHub Actions** (one-time, per repo).
 
 ### GitHub repository files
 
-| File | Purpose |
-| ---- | ------- |
+| File                     | Purpose                                                         |
+| ------------------------ | --------------------------------------------------------------- |
 | `.github/dependabot.yml` | Keeps Actions versions up to date (weekly, batched into one PR) |
-| `.github/SECURITY.md` | Vulnerability disclosure policy |
+| `.github/SECURITY.md`    | Vulnerability disclosure policy                                 |
 
 ## How sync works
 
@@ -121,7 +121,7 @@ secret and adding repos to `repos.txt`.
 
 - **cargo-generate** ≥ 0.19 (for `--define` flag support)
 - A GitHub Personal Access Token with **Contents**, **Pull requests**, and **Workflows**
-  write permissions on each downstream repo — see [SETUP.md](SETUP.md)
+    write permissions on each downstream repo — see [SETUP.md](SETUP.md)
 
 ## MSRV
 
