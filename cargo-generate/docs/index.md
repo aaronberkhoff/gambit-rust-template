@@ -2,7 +2,7 @@
 
 {{description}}
 
----
+______________________________________________________________________
 
 ## Features
 
@@ -41,5 +41,5 @@ fn main() {
 
 - [Getting Started](getting-started.md) — installation, first steps, and a complete walkthrough
 - [Configuration](configuration.md) — all available options
-- [API Reference](https://docs.rs/{{project_name}}) — full rustdoc on docs.rs
+- [API Reference](https://docs.rs/%7B%7Bproject_name%7D%7D) — full rustdoc on docs.rs
 - [Changelog](changelog.md) — what changed between versions

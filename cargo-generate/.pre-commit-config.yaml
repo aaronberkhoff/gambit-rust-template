@@ -1,0 +1,57 @@
+# Pre-commit hooks for Rust + Python (PyO3/maturin) projects.
+# Install once per clone: uv run pre-commit install
+# Run manually against all files: uv run pre-commit run --all-files
+# Update hook versions: uv run pre-commit autoupdate
+repos:
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v5.0.0
+      hooks:
+          - id: trailing-whitespace
+          - id: end-of-file-fixer
+          - id: check-yaml
+          - id: check-toml
+          - id: check-merge-conflict
+          - id: check-added-large-files
+          - id: detect-private-key
+
+    # Python auto-formatter.
+    - repo: https://github.com/psf/black
+      rev: 24.10.0
+      hooks:
+          - id: black
+
+    # Python linter — fixes safe issues automatically, flags the rest.
+    - repo: https://github.com/astral-sh/ruff-pre-commit
+      rev: v0.9.0
+      hooks:
+          - id: ruff
+            args: [--fix]
+
+    # Markdown formatter — uses the same plugins as the docs build.
+    - repo: https://github.com/hukkin/mdformat
+      rev: 0.7.19
+      hooks:
+          - id: mdformat
+            additional_dependencies:
+                - mdformat-mkdocs>=2.0.4
+                - mdformat-admon>=2.0.2
+
+    # Rust hooks run against the local toolchain (no network required).
+    - repo: local
+      hooks:
+          # Auto-formats all changed Rust files.
+          - id: cargo-fmt
+            name: cargo fmt
+            entry: cargo fmt --
+            language: system
+            types: [rust]
+            pass_filenames: true
+
+          # Lints all targets when any Rust file changes. Remove this hook
+          # and rely on CI instead if compile times make it too slow locally.
+          - id: cargo-clippy
+            name: cargo clippy
+            entry: cargo clippy --all-targets -- -D warnings
+            language: system
+            types: [rust]
+            pass_filenames: false

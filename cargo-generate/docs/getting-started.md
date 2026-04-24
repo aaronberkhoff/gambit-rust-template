@@ -30,7 +30,7 @@
     ```
 
     Or download a prebuilt binary from the
-    [GitHub Releases](https://github.com/{{author}}/{{project_name}}/releases) page.
+    [GitHub Releases](https://github.com/%7B%7Bauthor%7D%7D/%7B%7Bproject_name%7D%7D/releases) page.
 
 ## Basic usage
 
@@ -56,4 +56,4 @@ fn main() {
 ## Next steps
 
 - [Configuration](configuration.md) — customise behaviour with config options
-- [API Reference](https://docs.rs/{{project_name}}) — full type and function documentation
+- [API Reference](https://docs.rs/%7B%7Bproject_name%7D%7D) — full type and function documentation

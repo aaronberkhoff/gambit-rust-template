@@ -48,4 +48,6 @@ dev = [
     { include-group = "docs" },
     "pytest>=8",
     "maturin>=1,<2",
+    "pre-commit>=4",
+    "ruff>=0.9",
 ]

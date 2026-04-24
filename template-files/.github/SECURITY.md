@@ -19,9 +19,9 @@ We use GitHub Security Advisories for private, coordinated disclosure.
 ### How to report
 
 1. Go to the **Security** tab of this repository.
-2. Click **Report a vulnerability**.
-3. Fill in the affected versions, reproduction steps, and potential impact.
-4. Submit — the draft is only visible to repository maintainers.
+1. Click **Report a vulnerability**.
+1. Fill in the affected versions, reproduction steps, and potential impact.
+1. Submit — the draft is only visible to repository maintainers.
 
 A maintainer will acknowledge your report within **72 hours** and work with you
 on a coordinated disclosure timeline. We aim to release a fix within **90 days**

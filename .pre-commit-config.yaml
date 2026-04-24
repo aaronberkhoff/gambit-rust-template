@@ -1,0 +1,34 @@
+# Pre-commit hooks for the gambit-rust-template repo itself.
+# Install once per clone: uv run pre-commit install
+# Run manually against all files: uv run pre-commit run --all-files
+# Update hook versions: uv run pre-commit autoupdate
+repos:
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v5.0.0
+      hooks:
+          - id: trailing-whitespace
+          - id: end-of-file-fixer
+          - id: check-yaml
+          - id: check-toml
+          - id: check-merge-conflict
+          - id: check-added-large-files
+          - id: detect-private-key
+
+    # - repo: https://github.com/psf/black
+    #   rev: 24.10.0
+    #   hooks:
+    #       - id: black
+
+    # - repo: https://github.com/astral-sh/ruff-pre-commit
+    #   rev: v0.9.0
+    #   hooks:
+    #       - id: ruff
+    #         args: [--fix]
+
+    - repo: https://github.com/hukkin/mdformat
+      rev: 0.7.19
+      hooks:
+          - id: mdformat
+            additional_dependencies:
+                - mdformat-mkdocs>=2.0.4
+                - mdformat-admon>=2.0.2
