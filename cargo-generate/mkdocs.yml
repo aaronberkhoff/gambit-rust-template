@@ -8,8 +8,8 @@ theme:
   name: material
   # Logo shown in the top-left header. Place your file in docs/assets/ and
   # update the path below. SVG is preferred (scales cleanly at any resolution).
-  logo: assets/Gambit_logo.png
-  favicon: assets/Gambit_logo.png
+  # logo: assets/Gambit_logo.png
+  # favicon: assets/Gambit_logo.png
 
   palette:
     # Colors are defined in docs/stylesheets/extra.css.
