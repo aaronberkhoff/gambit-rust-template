@@ -1,0 +1,45 @@
+# {{project_name}}
+
+{{description}}
+
+---
+
+## Features
+
+!!! tip "What goes here"
+    Replace this section with your project's actual feature list.
+    Each feature should be a short, concrete capability statement.
+
+- **Fast** — describe your performance characteristic
+- **Reliable** — describe your reliability characteristic
+- **Simple** — describe your ease-of-use characteristic
+
+## Installation
+
+=== "Cargo"
+
+    ```sh
+    cargo add {{project_name}}
+    ```
+
+=== "Binary"
+
+    ```sh
+    cargo install {{project_name}}
+    ```
+
+## Quick example
+
+```rust
+// Replace with a real working example from your crate.
+fn main() {
+    println!("Hello from {{project_name}}!");
+}
+```
+
+## Next steps
+
+- [Getting Started](getting-started.md) — installation, first steps, and a complete walkthrough
+- [Configuration](configuration.md) — all available options
+- [API Reference](https://docs.rs/{{project_name}}) — full rustdoc on docs.rs
+- [Changelog](changelog.md) — what changed between versions

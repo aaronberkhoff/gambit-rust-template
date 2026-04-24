@@ -1,4 +1,4 @@
-# Standard CI for Rust projects — build, test, clippy, fmt.
+# Standard CI for Rust projects — build, test, clippy, fmt, MSRV, doc tests, coverage.
 # Synced from aaronberkhoff/gambit-rust-template. Do not edit manually.
 name: CI
 
@@ -16,6 +16,7 @@ jobs:
     build:
         name: Build
         runs-on: ubuntu-latest
+        timeout-minutes: 30
         steps:
             - uses: actions/checkout@v5
 
@@ -31,6 +32,7 @@ jobs:
     test:
         name: Test
         runs-on: ubuntu-latest
+        timeout-minutes: 30
         steps:
             - uses: actions/checkout@v5
 
@@ -46,6 +48,7 @@ jobs:
     clippy:
         name: Clippy
         runs-on: ubuntu-latest
+        timeout-minutes: 30
         steps:
             - uses: actions/checkout@v5
 
@@ -64,6 +67,7 @@ jobs:
     fmt:
         name: Rustfmt
         runs-on: ubuntu-latest
+        timeout-minutes: 30
         steps:
             - uses: actions/checkout@v5
 
@@ -75,3 +79,111 @@ jobs:
             # --check exits non-zero if any file would be reformatted.
             - name: Check formatting
               run: cargo fmt --all -- --check
+
+    msrv:
+        name: MSRV (1.75.0)
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        steps:
+            - uses: actions/checkout@v5
+
+            - name: Install MSRV toolchain
+              # dtolnay/rust-toolchain accepts a version string as the @-ref.
+              uses: dtolnay/rust-toolchain@1.75.0
+
+            - name: Cache dependencies
+              uses: Swatinem/rust-cache@v2
+              with:
+                  # Separate cache key prevents MSRV artifacts from polluting stable jobs.
+                  key: msrv
+
+            # Deliberately omit --all-features: feature-gated deps may have a
+            # higher MSRV than the core crate promises.
+            - name: Build (MSRV)
+              run: cargo build
+
+            - name: Test (MSRV)
+              run: cargo test
+
+    doc-test:
+        name: Doc tests
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        steps:
+            - uses: actions/checkout@v5
+
+            - name: Install Rust toolchain
+              uses: dtolnay/rust-toolchain@stable
+
+            - name: Cache dependencies
+              uses: Swatinem/rust-cache@v2
+
+            # Separate job keeps doc-example failures visible independently
+            # from unit test failures.
+            - name: Run doc tests
+              run: cargo test --doc
+
+    python-test:
+        name: Python bindings
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        steps:
+            - uses: actions/checkout@v5
+
+            - name: Install Rust toolchain
+              uses: dtolnay/rust-toolchain@stable
+
+            # Separate cache key: maturin compiles cdylib artifacts that differ
+            # from the rlib artifacts produced by plain cargo test.
+            - name: Cache Rust dependencies
+              uses: Swatinem/rust-cache@v2
+              with:
+                  key: python
+
+            - name: Install uv
+              uses: astral-sh/setup-uv@v5
+
+            - name: Install Python dev dependencies
+              run: uv sync --group dev
+
+            - name: Build and install extension
+              run: uv run maturin develop
+
+            - name: Run Python tests
+              run: uv run pytest
+
+    coverage:
+        name: Code coverage
+        runs-on: ubuntu-latest
+        # Instrumented builds are significantly slower than normal builds.
+        timeout-minutes: 60
+        steps:
+            - uses: actions/checkout@v5
+
+            - name: Install Rust toolchain
+              uses: dtolnay/rust-toolchain@stable
+              with:
+                  # llvm-tools-preview is required by cargo-llvm-cov at runtime.
+                  components: llvm-tools-preview
+
+            - name: Cache dependencies
+              uses: Swatinem/rust-cache@v2
+
+            - name: Install cargo-llvm-cov
+              # taiki-e/install-action downloads a prebuilt binary — no compile time.
+              uses: taiki-e/install-action@cargo-llvm-cov
+
+            - name: Generate coverage summary
+              # Writes a Markdown table to the Actions job summary, visible in the
+              # workflow run UI without downloading any artifact.
+              run: cargo llvm-cov --all-features --workspace --summary-only >> "$GITHUB_STEP_SUMMARY"
+
+            - name: Generate HTML coverage report
+              run: cargo llvm-cov --all-features --workspace --html --output-dir coverage-html
+
+            - name: Upload HTML report as artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: coverage-report
+                  path: coverage-html/
+                  retention-days: 14

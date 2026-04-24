@@ -9,7 +9,14 @@ rust-version = "1.75.0"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/{{author}}/{{project_name}}"
 
+[lib]
+name = "{{project_name}}"
+# cdylib: Python extension module (.so / .pyd) built by maturin
+# rlib: Rust library target so `cargo test` can link against the crate
+crate-type = ["cdylib", "rlib"]
+
 [dependencies]
+pyo3 = { version = "0.22", features = ["extension-module"] }
 
 [dev-dependencies]
 # Better assertion output: shows left/right values on failure.

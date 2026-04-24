@@ -1,0 +1,91 @@
+site_name: "{{project_name}}"
+site_description: "{{description}}"
+# Update repo_name/repo_url if your GitHub username differs from the author placeholder.
+repo_name: "{{author}}/{{project_name}}"
+repo_url: "https://github.com/{{author}}/{{project_name}}"
+
+theme:
+  name: material
+  # Logo shown in the top-left header. Place your file in docs/assets/ and
+  # update the path below. SVG is preferred (scales cleanly at any resolution).
+  logo: assets/Gambit_logo.png
+  favicon: assets/Gambit_logo.png
+
+  palette:
+    # Colors are defined in docs/stylesheets/extra.css.
+    # primary = header, sidebar, links  |  accent = hover states, buttons
+    # To swap to a Material built-in colour, replace "custom" with a named colour:
+    #   red | pink | purple | deep-purple | indigo | blue | cyan | teal | green …
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs          # Top-level sections as tabs (like uv docs)
+    - navigation.sections      # Group nested pages under section headers
+    - navigation.top           # "Back to top" button on scroll
+    - navigation.instant       # SPA-style page loads
+    - search.highlight         # Highlight search terms on result pages
+    - search.suggest           # Autocomplete suggestions in search
+    - content.code.copy        # Copy button on all code blocks
+    - content.code.annotate    # Inline annotations in code blocks
+  icon:
+    repo: fontawesome/brands/github
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Configuration: configuration.md
+  - API Reference: "https://docs.rs/{{project_name}}"
+  - Changelog: changelog.md
+
+extra_css:
+  - stylesheets/extra.css
+
+plugins:
+  - search
+  - redirects:
+      # Add entries here when you rename or move pages to avoid broken links.
+      # Example: "old-page.md": "new-page.md"
+      redirect_maps: {}
+  - git-revision-date-localized:
+      enable_creation_date: true
+      # Uncomment if your CI uses a shallow clone (fetch-depth != 0):
+      # fallback_to_build_date: true
+  - llmstxt:
+      # sections maps heading names to page glob patterns in the generated llms.txt.
+      # "**" includes every page under that heading. Add more sections to split
+      # content by area (e.g. Guides vs Reference).
+      sections:
+        Documentation:
+          - "**"
+
+markdown_extensions:
+  # admonition + details = collapsible note/warning/tip blocks
+  - admonition
+  - pymdownx.details
+  # superfences enables fenced code blocks with syntax highlighting
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  # tabbed enables content tabs (e.g. install instructions per OS)
+  - pymdownx.tabbed:
+      alternate_style: true
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true

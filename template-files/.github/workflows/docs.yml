@@ -1,0 +1,70 @@
+# Builds the MkDocs Material documentation site and deploys it to GitHub Pages.
+# Synced from aaronberkhoff/gambit-rust-template. Do not edit manually.
+#
+# Prerequisites (one-time setup per repo):
+#   1. Settings → Pages → Source: set to "GitHub Actions" (not "Deploy from a branch")
+#   2. mkdocs.yml and pyproject.toml must exist at the repo root (from cargo-generate)
+name: Deploy docs
+
+on:
+    push:
+        branches: [main]
+        paths:
+            - "docs/**"
+            - "mkdocs.yml"
+            - "pyproject.toml"
+    # Allow triggering a deploy manually from the Actions tab.
+    workflow_dispatch:
+
+# Required for GitHub Pages deployment via Actions.
+permissions:
+    contents: read
+    pages: write
+    id-token: write
+
+# Only one deployment runs at a time; in-progress deploys are NOT cancelled
+# so we never serve a partially-built site.
+concurrency:
+    group: pages
+    cancel-in-progress: false
+
+jobs:
+    build:
+        name: Build docs
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        steps:
+            # fetch-depth: 0 gives git-revision-date-localized the full history
+            # it needs to show accurate creation and modification dates per page.
+            - uses: actions/checkout@v5
+              with:
+                  fetch-depth: 0
+
+            - name: Install uv
+              uses: astral-sh/setup-uv@v5
+
+            - name: Install docs dependencies
+              run: uv sync --group docs
+
+            - name: Build site
+              # --strict turns warnings into errors so broken links and bad
+              # admonition syntax surface in CI rather than silently on the page.
+              run: uv run mkdocs build --strict
+
+            - name: Upload Pages artifact
+              uses: actions/upload-pages-artifact@v3
+              with:
+                  path: site/
+
+    deploy:
+        name: Deploy to GitHub Pages
+        runs-on: ubuntu-latest
+        needs: build
+        timeout-minutes: 10
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+        steps:
+            - name: Deploy
+              id: deployment
+              uses: actions/deploy-pages@v4

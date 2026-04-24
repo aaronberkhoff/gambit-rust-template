@@ -1,0 +1,25 @@
+/* Miami Vice — neon pink primary, neon cyan accent. */
+
+/* Light mode */
+[data-md-color-scheme="default"] {
+    --md-primary-fg-color:        #08f7fe;
+    --md-primary-fg-color--light: #6cfbff;
+    --md-primary-fg-color--dark:  #00c0cb;
+    --md-primary-bg-color:        #ffffff;
+    --md-primary-bg-color--light: rgba(255, 255, 255, 0.7);
+
+    --md-accent-fg-color:              #ff2d78;
+    --md-accent-fg-color--transparent: rgba(255, 45, 120, 0.1);
+}
+
+/* Dark mode */
+[data-md-color-scheme="slate"] {
+    --md-primary-fg-color:        #08f7fe;
+    --md-primary-fg-color--light: #6cfbff;
+    --md-primary-fg-color--dark:  #00c0cb;
+    --md-primary-bg-color:        #ffffff;
+    --md-primary-bg-color--light: rgba(255, 255, 255, 0.7);
+
+    --md-accent-fg-color:              #ff2d78;
+    --md-accent-fg-color--transparent: rgba(255, 45, 120, 0.1);
+}

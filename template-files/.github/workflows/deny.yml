@@ -1,0 +1,25 @@
+# License compliance, banned dependencies, and advisory checks via cargo-deny.
+# Synced from aaronberkhoff/gambit-rust-template. Do not edit manually.
+name: Dependency checks
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+jobs:
+    deny:
+        name: cargo deny
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        steps:
+            - uses: actions/checkout@v5
+
+            # EmbarkStudios/cargo-deny-action brings its own binary — no Rust
+            # toolchain install or dependency caching needed.
+            - name: Check licenses, bans, and advisories
+              uses: EmbarkStudios/cargo-deny-action@v2
+              with:
+                  # deny.toml is expected at the repo root (the default location).
+                  manifest-path: Cargo.toml

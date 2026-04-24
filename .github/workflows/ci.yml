@@ -1,5 +1,5 @@
 # CI for the template repo itself — validates that template files are well-formed
-# and that cargo-generate scaffolding parses correctly.
+# and that cargo-generate scaffolding generates and compiles a project correctly.
 name: CI
 
 on:
@@ -39,3 +39,71 @@ jobs:
                   taplo check template-files/.clippy.toml
                   taplo check template-files/.cargo/config.toml
                   taplo check cargo-generate/cargo-generate.toml
+                  taplo check template-files/deny.toml
+
+    docs-fmt:
+        name: Markdown format check
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v5
+
+            - name: Install uv
+              uses: astral-sh/setup-uv@v5
+
+            - name: Install docs dependencies
+              run: uv sync --group docs
+
+            # --check exits non-zero if any file would be reformatted.
+            - name: Check markdown formatting
+              run: uv run mdformat --check .
+
+    shellcheck:
+        name: ShellCheck
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v5
+
+            # ludeeus/action-shellcheck extracts run: blocks from YAML workflow
+            # files automatically — shellcheck itself only accepts .sh files.
+            - name: Lint shell scripts in workflow files
+              uses: ludeeus/action-shellcheck@2.0.0
+              with:
+                  scandir: ".github/workflows"
+                  severity: warning
+
+    test-template:
+        name: Test cargo-generate template
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v5
+
+            - name: Install Rust toolchain
+              uses: dtolnay/rust-toolchain@stable
+
+            - name: Cache dependencies
+              uses: Swatinem/rust-cache@v2
+
+            - name: Install cargo-binstall
+              run: |
+                  curl -L --proto '=https' --tlsv1.2 \
+                      https://github.com/cargo-bins/cargo-binstall/releases/latest/download/cargo-binstall-x86_64-unknown-linux-musl.tgz \
+                      | tar xz -C /usr/local/bin
+
+            - name: Install cargo-generate
+              # cargo-binstall downloads a prebuilt binary (~5s) instead of
+              # compiling cargo-generate from source (~3min).
+              run: cargo binstall cargo-generate --no-confirm
+
+            - name: Generate test project
+              run: |
+                  cargo generate \
+                      --path cargo-generate/ \
+                      --name test-project \
+                      --define description="test" \
+                      --define author="test" \
+                      --destination /tmp/generated \
+                      --silent
+
+            - name: Cargo check generated project
+              working-directory: /tmp/generated/test-project
+              run: cargo check

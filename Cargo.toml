@@ -1,0 +1,6 @@
+# Virtual workspace — no Rust source lives here, but declaring a workspace
+# lets cargo commands (cargo generate, cargo check in CI) run from the repo root
+# and gives IDEs a Cargo project to anchor to.
+[workspace]
+members = []
+resolver = "2"

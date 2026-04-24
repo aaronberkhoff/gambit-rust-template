@@ -1,0 +1,21 @@
+# Dependabot keeps GitHub Actions versions up to date automatically.
+# Synced from aaronberkhoff/gambit-rust-template. Do not edit manually.
+version: 2
+
+updates:
+    - package-ecosystem: github-actions
+      directory: /
+      schedule:
+          interval: weekly
+          day: monday
+          time: "06:00"
+          timezone: UTC
+      # Group all Actions updates into one PR to avoid weekly noise from
+      # individual actions bumping their patch versions independently.
+      groups:
+          github-actions:
+              patterns:
+                  - "*"
+      commit-message:
+          prefix: chore
+          include: scope
