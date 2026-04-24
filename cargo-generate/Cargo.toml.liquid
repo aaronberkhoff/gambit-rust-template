@@ -1,5 +1,5 @@
 [package]
-name = "{{project_name}}"
+name = "{{crate_name}}"
 version = "0.1.0"
 edition = "2021"
 description = "{{description}}"
@@ -7,10 +7,10 @@ authors = ["{{author}}"]
 # Keep in sync with msrv in .clippy.toml
 rust-version = "1.75.0"
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/{{author}}/{{project_name}}"
+repository = "https://github.com/{{author}}/{{crate_name}}"
 
 [lib]
-name = "{{project_name}}"
+name = "{{crate_name}}"
 # cdylib: Python extension module (.so / .pyd) built by maturin
 # rlib: Rust library target so `cargo test` can link against the crate
 crate-type = ["cdylib", "rlib"]

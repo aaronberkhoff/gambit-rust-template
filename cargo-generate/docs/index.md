@@ -1,4 +1,4 @@
-# {{project_name}}
+# {{crate_name}}
 
 {{description}}
 
@@ -19,13 +19,13 @@ ______________________________________________________________________
 === "Cargo"
 
     ```sh
-    cargo add {{project_name}}
+    cargo add {{crate_name}}
     ```
 
 === "Binary"
 
     ```sh
-    cargo install {{project_name}}
+    cargo install {{crate_name}}
     ```
 
 ## Quick example
@@ -33,7 +33,7 @@ ______________________________________________________________________
 ```rust
 // Replace with a real working example from your crate.
 fn main() {
-    println!("Hello from {{project_name}}!");
+    println!("Hello from {{crate_name}}!");
 }
 ```
 

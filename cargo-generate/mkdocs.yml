@@ -1,8 +1,8 @@
-site_name: "{{project_name}}"
+site_name: "{{crate_name}}"
 site_description: "{{description}}"
 # Update repo_name/repo_url if your GitHub username differs from the author placeholder.
-repo_name: "{{author}}/{{project_name}}"
-repo_url: "https://github.com/{{author}}/{{project_name}}"
+repo_name: "{{author}}/{{crate_name}}"
+repo_url: "https://github.com/{{author}}/{{crate_name}}"
 
 theme:
   name: material
@@ -46,7 +46,7 @@ nav:
   - Home: index.md
   - Getting Started: getting-started.md
   - Configuration: configuration.md
-  - API Reference: "https://docs.rs/{{project_name}}"
+  - API Reference: "https://docs.rs/{{crate_name}}"
   - Changelog: changelog.md
 
 extra_css:

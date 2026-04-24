@@ -8,17 +8,17 @@
 
 === "As a library dependency"
 
-    Add {{project_name}} to your `Cargo.toml`:
+    Add {{crate_name}} to your `Cargo.toml`:
 
     ```sh
-    cargo add {{project_name}}
+    cargo add {{crate_name}}
     ```
 
     Or edit `Cargo.toml` directly:
 
     ```toml
     [dependencies]
-    {{project_name}} = "0.1"
+    {{crate_name}} = "0.1"
     ```
 
 === "As a binary"
@@ -26,7 +26,7 @@
     Install the latest release from crates.io:
 
     ```sh
-    cargo install {{project_name}}
+    cargo install {{crate_name}}
     ```
 
     Or download a prebuilt binary from the
@@ -39,7 +39,7 @@
     copy-pasteable and runnable without modification.
 
 ```rust
-use {{project_name}}::SomeType;
+use {{crate_name}}::SomeType;
 
 fn main() {
     let value = SomeType::new();
@@ -50,7 +50,7 @@ fn main() {
 ## Verifying the installation
 
 ```sh
-{{project_name}} --version
+{{crate_name}} --version
 ```
 
 ## Next steps

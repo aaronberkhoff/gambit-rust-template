@@ -11,10 +11,8 @@ ignore = [
     "README.md",
 ]
 
-[placeholders.project_name]
-type = "string"
-prompt = "Project name (snake_case, used as the crate name)"
-regex = "^[a-z][a-z0-9_]*$"
+# project_name removed — cargo-generate provides {{crate_name}} automatically
+# from the --name flag (normalized to snake_case), so no separate prompt needed.
 
 [placeholders.description]
 type = "string"
