@@ -1,0 +1,10 @@
+edition = "2021"
+max_width = 100
+
+# "Crate" merges all imports from the same crate into one `use` block,
+# reducing churn when adding new items from an already-imported crate.
+imports_granularity = "Crate"
+
+# Groups imports as: std → external crates → self/super/crate.
+# Matches the conventional ordering enforced by clippy::std_instead_of_core etc.
+group_imports = "StdExternalCrate"

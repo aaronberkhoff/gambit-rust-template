@@ -1,0 +1,41 @@
+# CI for the template repo itself — validates that template files are well-formed
+# and that cargo-generate scaffolding parses correctly.
+name: CI
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+jobs:
+    validate-yaml:
+        name: Validate workflow YAML
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Install yamllint
+              run: pip install yamllint
+
+            - name: Lint workflow files
+              run: yamllint -d relaxed .github/workflows/ template-files/.github/workflows/
+
+    validate-toml:
+        name: Validate TOML files
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Install taplo (TOML formatter/validator)
+              run: |
+                  curl -fsSL https://github.com/tamasfe/taplo/releases/latest/download/taplo-linux-x86_64.gz \
+                      | gzip -d > /usr/local/bin/taplo
+                  chmod +x /usr/local/bin/taplo
+
+            - name: Check TOML files
+              run: |
+                  taplo check template-files/rustfmt.toml
+                  taplo check template-files/.clippy.toml
+                  taplo check template-files/.cargo/config.toml
+                  taplo check cargo-generate/cargo-generate.toml

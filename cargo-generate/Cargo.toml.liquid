@@ -1,0 +1,18 @@
+[package]
+name = "{{project_name}}"
+version = "0.1.0"
+edition = "2021"
+description = "{{description}}"
+authors = ["{{author}}"]
+# Keep in sync with msrv in .clippy.toml
+rust-version = "1.75.0"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/{{author}}/{{project_name}}"
+
+[dependencies]
+
+[dev-dependencies]
+# Better assertion output: shows left/right values on failure.
+pretty_assertions = "1"
+# Captures tracing spans/events in tests without a global subscriber.
+tracing-test = "0.2"

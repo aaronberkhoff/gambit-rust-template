@@ -1,0 +1,4 @@
+# List downstream repos to receive synced template files, one per line.
+# Format: owner/repo  (e.g. aaronberkhoff/my-project)
+# Lines starting with # and blank lines are ignored by the sync workflow.
+aaronberkhoff/ranger

@@ -1,0 +1,97 @@
+# Syncs files from template-files/ to every downstream repo listed in repos.txt.
+# Triggered manually or on push to main when template files change.
+# Each downstream repo receives a PR; auto-merge is left to repo policy.
+name: Sync template files
+
+on:
+    push:
+        branches: [main]
+        paths:
+            - "template-files/**"
+    workflow_dispatch:
+        inputs:
+            dry_run:
+                description: "Print actions without opening PRs"
+                type: boolean
+                default: false
+
+jobs:
+    sync:
+        name: Push to downstream repos
+        runs-on: ubuntu-latest
+        # Skip if repos.txt is empty or contains only comments
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Read repo list
+              id: repos
+              run: |
+                  # Strip blank lines and comment lines (# prefix)
+                  REPOS=$(grep -v '^\s*#' repos.txt | grep -v '^\s*$' || true)
+                  echo "repos<<EOF" >> "$GITHUB_OUTPUT"
+                  echo "$REPOS" >> "$GITHUB_OUTPUT"
+                  echo "EOF" >> "$GITHUB_OUTPUT"
+                  echo "count=$(echo "$REPOS" | grep -c . || echo 0)" >> "$GITHUB_OUTPUT"
+
+            - name: Sync files to each repo
+              if: steps.repos.outputs.count != '0'
+              env:
+                  GH_TOKEN: ${{ secrets.SYNC_TOKEN }}
+                  DRY_RUN: ${{ inputs.dry_run || 'false' }}
+              run: |
+                  set -euo pipefail
+
+                  while IFS= read -r repo; do
+                      [[ -z "$repo" ]] && continue
+
+                      echo "==> Syncing to $repo"
+
+                      # Clone target repo into a temp dir
+                      TMPDIR=$(mktemp -d)
+                      gh repo clone "$repo" "$TMPDIR/repo" -- --depth=1
+
+                      # Copy each file from template-files/ preserving directory structure
+                      rsync -av --relative template-files/./ "$TMPDIR/repo/"
+
+                      cd "$TMPDIR/repo"
+
+                      # Skip if nothing changed
+                      if git diff --quiet && git diff --cached --quiet; then
+                          echo "No changes for $repo, skipping."
+                          cd -
+                          rm -rf "$TMPDIR"
+                          continue
+                      fi
+
+                      BRANCH="chore/sync-template-$(date +%Y%m%d-%H%M%S)"
+                      git checkout -b "$BRANCH"
+                      git add -A
+                      git commit -m "chore: sync files from rust-template
+
+                  Automated sync from aaronberkhoff/gambit-rust-template.
+                  Source commit: ${{ github.sha }}"
+
+                      if [[ "$DRY_RUN" == "true" ]]; then
+                          echo "[dry-run] Would push branch $BRANCH to $repo"
+                      else
+                          git push origin "$BRANCH"
+                          gh pr create \
+                              --title "chore: sync files from rust-template" \
+                              --body "Automated file sync from the template repository.
+
+                  **Changed files:**
+                  $(git diff HEAD~1 --name-only)
+
+                  ---
+                  *Triggered by commit [\`${{ github.sha }}\`](${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})*" \
+                              --head "$BRANCH" \
+                              --base main
+                      fi
+
+                      cd -
+                      rm -rf "$TMPDIR"
+                  done <<< "${{ steps.repos.outputs.repos }}"
+
+            - name: No repos configured
+              if: steps.repos.outputs.count == '0'
+              run: echo "repos.txt is empty — no downstream repos to sync."

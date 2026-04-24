@@ -1,0 +1,25 @@
+[template]
+name = "gambit-rust-template"
+description = "Opinionated Rust project template with CI, audit, and release workflows"
+# Files in this list are not copied into the generated project.
+ignore = [
+    "cargo-generate.toml",
+    ".git",
+    ".github",
+    "template-files",
+    "repos.txt",
+    "README.md",
+]
+
+[placeholders.project_name]
+type = "string"
+prompt = "Project name (snake_case, used as the crate name)"
+regex = "^[a-z][a-z0-9_]*$"
+
+[placeholders.description]
+type = "string"
+prompt = "Short description of the project"
+
+[placeholders.author]
+type = "string"
+prompt = "Author name (used in Cargo.toml)"
