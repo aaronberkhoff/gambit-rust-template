@@ -21,7 +21,7 @@ jobs:
         runs-on: ubuntu-latest
         # Skip if repos.txt is empty or contains only comments
         steps:
-            - uses: actions/checkout@v5
+            - uses: actions/checkout@v6
 
             - name: Read repo list
               id: repos

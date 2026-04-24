@@ -14,7 +14,7 @@ jobs:
         runs-on: ubuntu-latest
         timeout-minutes: 30
         steps:
-            - uses: actions/checkout@v5
+            - uses: actions/checkout@v6
 
             # EmbarkStudios/cargo-deny-action brings its own binary — no Rust
             # toolchain install or dependency caching needed.

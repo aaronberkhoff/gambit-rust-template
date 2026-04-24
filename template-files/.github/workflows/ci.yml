@@ -18,7 +18,7 @@ jobs:
         runs-on: ubuntu-latest
         timeout-minutes: 30
         steps:
-            - uses: actions/checkout@v5
+            - uses: actions/checkout@v6
 
             - name: Install Rust toolchain
               uses: dtolnay/rust-toolchain@stable
@@ -34,7 +34,7 @@ jobs:
         runs-on: ubuntu-latest
         timeout-minutes: 30
         steps:
-            - uses: actions/checkout@v5
+            - uses: actions/checkout@v6
 
             - name: Install Rust toolchain
               uses: dtolnay/rust-toolchain@stable
@@ -50,7 +50,7 @@ jobs:
         runs-on: ubuntu-latest
         timeout-minutes: 30
         steps:
-            - uses: actions/checkout@v5
+            - uses: actions/checkout@v6
 
             - name: Install Rust toolchain (with clippy)
               uses: dtolnay/rust-toolchain@stable
@@ -69,7 +69,7 @@ jobs:
         runs-on: ubuntu-latest
         timeout-minutes: 30
         steps:
-            - uses: actions/checkout@v5
+            - uses: actions/checkout@v6
 
             - name: Install Rust toolchain (with rustfmt)
               uses: dtolnay/rust-toolchain@stable
@@ -85,7 +85,7 @@ jobs:
         runs-on: ubuntu-latest
         timeout-minutes: 30
         steps:
-            - uses: actions/checkout@v5
+            - uses: actions/checkout@v6
 
             - name: Install MSRV toolchain
               # dtolnay/rust-toolchain accepts a version string as the @-ref.
@@ -110,7 +110,7 @@ jobs:
         runs-on: ubuntu-latest
         timeout-minutes: 30
         steps:
-            - uses: actions/checkout@v5
+            - uses: actions/checkout@v6
 
             - name: Install Rust toolchain
               uses: dtolnay/rust-toolchain@stable
@@ -128,7 +128,7 @@ jobs:
         runs-on: ubuntu-latest
         timeout-minutes: 30
         steps:
-            - uses: actions/checkout@v5
+            - uses: actions/checkout@v6
 
             - name: Install Rust toolchain
               uses: dtolnay/rust-toolchain@stable
@@ -141,7 +141,7 @@ jobs:
                   key: python
 
             - name: Install uv
-              uses: astral-sh/setup-uv@v5
+              uses: astral-sh/setup-uv@v6
 
             - name: Install Python dev dependencies
               run: uv sync --group dev
@@ -158,7 +158,7 @@ jobs:
         # Instrumented builds are significantly slower than normal builds.
         timeout-minutes: 60
         steps:
-            - uses: actions/checkout@v5
+            - uses: actions/checkout@v6
 
             - name: Install Rust toolchain
               uses: dtolnay/rust-toolchain@stable

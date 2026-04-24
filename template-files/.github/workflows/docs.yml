@@ -36,12 +36,12 @@ jobs:
         steps:
             # fetch-depth: 0 gives git-revision-date-localized the full history
             # it needs to show accurate creation and modification dates per page.
-            - uses: actions/checkout@v5
+            - uses: actions/checkout@v6
               with:
                   fetch-depth: 0
 
             - name: Install uv
-              uses: astral-sh/setup-uv@v5
+              uses: astral-sh/setup-uv@v6
 
             - name: Install docs dependencies
               run: uv sync --group docs
