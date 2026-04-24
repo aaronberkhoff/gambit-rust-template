@@ -21,7 +21,7 @@ jobs:
         runs-on: ubuntu-latest
         # Skip if repos.txt is empty or contains only comments
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v5
 
             - name: Read repo list
               id: repos
@@ -32,6 +32,16 @@ jobs:
                   echo "$REPOS" >> "$GITHUB_OUTPUT"
                   echo "EOF" >> "$GITHUB_OUTPUT"
                   echo "count=$(echo "$REPOS" | grep -c . || echo 0)" >> "$GITHUB_OUTPUT"
+
+            - name: Verify SYNC_TOKEN is configured
+              if: steps.repos.outputs.count != '0'
+              env:
+                  TOKEN: ${{ secrets.SYNC_TOKEN }}
+              run: |
+                  if [[ -z "$TOKEN" ]]; then
+                      echo "::error::SYNC_TOKEN secret is not set. See SETUP.md for instructions."
+                      exit 1
+                  fi
 
             - name: Sync files to each repo
               if: steps.repos.outputs.count != '0'
