@@ -74,6 +74,9 @@ jobs:
                           continue
                       fi
 
+                      git config user.email "github-actions[bot]@users.noreply.github.com"
+                      git config user.name "github-actions[bot]"
+
                       BRANCH="chore/sync-template-$(date +%Y%m%d-%H%M%S)"
                       git checkout -b "$BRANCH"
                       git add -A
