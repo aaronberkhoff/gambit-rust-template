@@ -35,7 +35,6 @@
 ## Basic usage
 
 !!! note
-
     Replace this section with a real working example. The example should be
     copy-pasteable and runnable without modification.
 

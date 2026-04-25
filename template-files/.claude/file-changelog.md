@@ -8,22 +8,22 @@ file, add or update a changelog block at the very top of the file.
 - ALWAYS add a block when generating a file from scratch.
 - Add an entry when a change touches more than ~20 lines or restructures the file.
 - Skip trivial edits: single-line fixes, typo corrections, auto-formatter runs
-  (`rustfmt`, `ruff-format`).
+    (`rustfmt`, `ruff-format`).
 
 ## Format by file type
 
-| File type | Comment syntax |
-|-----------|----------------|
-| `.rs`, `.py` | `// AI: <date> - <summary> (<model>)` |
-| `.yml`, `.yaml`, `.toml` | `# AI: <date> - <summary> (<model>)` |
-| `.md` | `<!-- AI: <date> - <summary> (<model>) -->` |
+| File type                | Comment syntax                              |
+| ------------------------ | ------------------------------------------- |
+| `.rs`, `.py`             | `// AI: <date> - <summary> (<model>)`       |
+| `.yml`, `.yaml`, `.toml` | `# AI: <date> - <summary> (<model>)`        |
+| `.md`                    | `<!-- AI: <date> - <summary> (<model>) -->` |
 
 ## Rules
 
 - Place the block at the very top of the file, above all other content including
-  license headers and shebangs.
+    license headers and shebangs.
 - Keep each entry to one line: purpose and model only. No session context, no
-  task references — those belong in the commit message.
+    task references — those belong in the commit message.
 - Append a new entry for each significant change; do not edit previous entries.
 
 ## Examples

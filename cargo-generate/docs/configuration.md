@@ -1,7 +1,6 @@
 # Configuration
 
 !!! note "Fill this in"
-
     Document each configuration option your project exposes. The structure below
     is a starting point — adapt it to your actual config surface.
 

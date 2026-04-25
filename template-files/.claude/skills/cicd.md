@@ -5,8 +5,8 @@
 Answer these three questions before committing any change to `.github/workflows/`:
 
 1. What triggers this job? (push, PR, tag, schedule, `workflow_dispatch`)
-2. What does it do, and what is the success condition?
-3. What would cause it to fail, and would that failure be actionable?
+1. What does it do, and what is the success condition?
+1. What would cause it to fail, and would that failure be actionable?
 
 If you cannot answer all three, ask Claude to explain before accepting the change.
 
@@ -29,9 +29,9 @@ matrices. Raising a timeout to fix a flaky job hides the real problem.
 `Swatinem/rust-cache` cache keys are intentional. The specialised keys in this
 template are:
 
-| Key | Job | Reason |
-|-----|-----|--------|
-| `msrv` | `msrv.yml` | Prevents 1.75.0 artifacts polluting stable build cache |
+| Key      | Job               | Reason                                                      |
+| -------- | ----------------- | ----------------------------------------------------------- |
+| `msrv`   | `msrv.yml`        | Prevents 1.75.0 artifacts polluting stable build cache      |
 | `python` | `python-test.yml` | maturin produces `cdylib` artifacts that differ from `rlib` |
 
 Do not remove or consolidate these keys without understanding artifact isolation.

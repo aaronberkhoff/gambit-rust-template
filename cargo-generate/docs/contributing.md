@@ -24,31 +24,31 @@ uv run pre-commit autoupdate
 
 ### Available hooks
 
-| Hook | Tool | What it does |
-|------|------|--------------|
-| `trailing-whitespace` | pre-commit-hooks | Strips trailing whitespace |
-| `end-of-file-fixer` | pre-commit-hooks | Ensures files end with a newline |
-| `check-yaml` | pre-commit-hooks | Validates YAML syntax |
-| `check-toml` | pre-commit-hooks | Validates TOML syntax |
-| `check-json` | pre-commit-hooks | Validates JSON syntax |
-| `check-merge-conflict` | pre-commit-hooks | Blocks files with unresolved merge conflict markers |
-| `check-case-conflict` | pre-commit-hooks | Catches filenames that collide on case-insensitive filesystems |
-| `check-added-large-files` | pre-commit-hooks | Blocks accidentally committed large files |
-| `detect-private-key` | pre-commit-hooks | Blocks accidentally committed private keys |
-| `no-commit-to-branch` | pre-commit-hooks | Prevents direct commits to `main` |
-| `typos` | crate-ci/typos | Spell-checks source, docs, and config files |
-| `ruff-format` | ruff | Auto-formats Python files (Black-compatible) |
-| `ruff` | ruff | Lints Python and auto-fixes safe issues |
-| `mdformat` | mdformat | Auto-formats Markdown files |
-| `cargo-fmt` | local | Auto-formats changed Rust files |
-| `cargo-clippy` | local | Lints all Rust targets; warnings are errors |
+| Hook                      | Tool             | What it does                                                   |
+| ------------------------- | ---------------- | -------------------------------------------------------------- |
+| `trailing-whitespace`     | pre-commit-hooks | Strips trailing whitespace                                     |
+| `end-of-file-fixer`       | pre-commit-hooks | Ensures files end with a newline                               |
+| `check-yaml`              | pre-commit-hooks | Validates YAML syntax                                          |
+| `check-toml`              | pre-commit-hooks | Validates TOML syntax                                          |
+| `check-json`              | pre-commit-hooks | Validates JSON syntax                                          |
+| `check-merge-conflict`    | pre-commit-hooks | Blocks files with unresolved merge conflict markers            |
+| `check-case-conflict`     | pre-commit-hooks | Catches filenames that collide on case-insensitive filesystems |
+| `check-added-large-files` | pre-commit-hooks | Blocks accidentally committed large files                      |
+| `detect-private-key`      | pre-commit-hooks | Blocks accidentally committed private keys                     |
+| `no-commit-to-branch`     | pre-commit-hooks | Prevents direct commits to `main`                              |
+| `typos`                   | crate-ci/typos   | Spell-checks source, docs, and config files                    |
+| `ruff-format`             | ruff             | Auto-formats Python files (Black-compatible)                   |
+| `ruff`                    | ruff             | Lints Python and auto-fixes safe issues                        |
+| `mdformat`                | mdformat         | Auto-formats Markdown files                                    |
+| `cargo-fmt`               | local            | Auto-formats changed Rust files                                |
+| `cargo-clippy`            | local            | Lints all Rust targets; warnings are errors                    |
 
 !!! tip "Slow clippy?"
     `cargo-clippy` recompiles on every changed Rust file, which can be slow on large
     projects. Remove the `cargo-clippy` hook and rely on the [`clippy` CI job](#clippy)
     instead.
 
----
+______________________________________________________________________
 
 ## CI/CD pipeline
 
@@ -134,7 +134,7 @@ Generates a coverage report using `cargo-llvm-cov` (requires the `llvm-tools-pre
 component). Produces two outputs:
 
 - A Markdown summary table written to the Actions job summary (visible in the workflow
-  run UI without downloading anything).
+    run UI without downloading anything).
 - An HTML report uploaded as the `coverage-report` artifact, retained for 14 days.
 
 The job has a 60-minute timeout because instrumented builds are significantly slower
@@ -163,7 +163,7 @@ repo root:
 myterm = "myterm"
 ```
 
----
+______________________________________________________________________
 
 ### On push to `main` (path-filtered)
 
@@ -179,7 +179,7 @@ deploys it to GitHub Pages.
     Go to **Settings → Pages → Source** and set it to **GitHub Actions** before the
     first deploy.
 
----
+______________________________________________________________________
 
 ### On version tag (`v*.*.*`)
 
@@ -195,19 +195,20 @@ git push origin v1.2.3
 **File:** `.github/workflows/release.yml`
 
 1. **Validate** — checks that the tag version matches the `version` field in
-   `Cargo.toml`. Fails fast with a clear error if they diverge.
-2. **Build** — cross-compiles release binaries for all supported targets in parallel:
+    `Cargo.toml`. Fails fast with a clear error if they diverge.
 
-    | Target | Runner |
-    |--------|--------|
-    | `x86_64-unknown-linux-gnu` | ubuntu-latest |
+1. **Build** — cross-compiles release binaries for all supported targets in parallel:
+
+    | Target                      | Runner                |
+    | --------------------------- | --------------------- |
+    | `x86_64-unknown-linux-gnu`  | ubuntu-latest         |
     | `aarch64-unknown-linux-gnu` | ubuntu-latest (cross) |
-    | `x86_64-apple-darwin` | macos-13 |
-    | `aarch64-apple-darwin` | macos-latest |
-    | `x86_64-pc-windows-msvc` | windows-latest |
+    | `x86_64-apple-darwin`       | macos-13              |
+    | `aarch64-apple-darwin`      | macos-latest          |
+    | `x86_64-pc-windows-msvc`    | windows-latest        |
 
-3. **Release** — collects all binaries, generates `SHA256SUMS.txt`, and publishes a
-   GitHub release with auto-generated release notes.
+1. **Release** — collects all binaries, generates `SHA256SUMS.txt`, and publishes a
+    GitHub release with auto-generated release notes.
 
 To also publish to crates.io, uncomment the `publish-crate` job in `release.yml` and
 add `CARGO_REGISTRY_TOKEN` as a repository secret.
@@ -219,20 +220,20 @@ add `CARGO_REGISTRY_TOKEN` as a repository secret.
 Builds Python wheels for all supported platforms using `maturin` and publishes them
 to PyPI alongside a source distribution (`sdist`).
 
-| Target | Runner |
-|--------|--------|
-| Linux x86_64 | ubuntu-latest |
-| Linux aarch64 | ubuntu-latest |
+| Target         | Runner         |
+| -------------- | -------------- |
+| Linux x86_64   | ubuntu-latest  |
+| Linux aarch64  | ubuntu-latest  |
 | Windows x86_64 | windows-latest |
-| macOS arm64 | macos-latest |
-| macOS x86_64 | macos-13 |
+| macOS arm64    | macos-latest   |
+| macOS x86_64   | macos-13       |
 
 !!! note "One-time setup"
     Configure [Trusted Publishing](https://docs.pypi.org/trusted-publishers/) in your
     PyPI project settings (recommended), or add a `PYPI_API_TOKEN` secret and a `pypi`
     environment in **Settings → Environments**.
 
----
+______________________________________________________________________
 
 ### Scheduled
 
