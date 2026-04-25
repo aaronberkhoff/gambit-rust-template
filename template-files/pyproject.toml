@@ -31,9 +31,25 @@ Documentation = "https://{{author}}.github.io/{{project_name}}"
 # Remove this line if you are building a standalone binary wheel instead.
 features = ["pyo3/extension-module"]
 
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes (unused imports, undefined names)
+    "I",  # isort (import ordering)
+    "N",  # pep8-naming (snake_case, PascalCase, UPPER_CASE)
+    "UP", # pyupgrade (modern Python syntax)
+    "B",  # flake8-bugbear (common bugs and design issues)
+]
+ignore = [
+    "E501", # line length — handled by ruff-format
+]
+
 [dependency-groups]
 docs = [
-    "black>=23.10.0",
     # Pin below 2.0 — MkDocs 2.0 removes the plugin system and breaks all themes.
     "mkdocs>=1.5.0,<2.0",
     "mkdocs-material>=9.1.18",
@@ -51,4 +67,10 @@ dev = [
     "maturin>=1,<2",
     "pre-commit>=4",
     "ruff>=0.9",
+    "pyright>=1.1",
 ]
+
+[tool.pyright]
+# Match the minimum Python version declared in [project].
+pythonVersion = "3.9"
+typeCheckingMode = "basic"

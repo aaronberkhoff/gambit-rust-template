@@ -1,0 +1,38 @@
+# Synced from aaronberkhoff/gambit-rust-template. Do not edit manually.
+name: MSRV
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+env:
+    CARGO_TERM_COLOR: always
+    RUST_BACKTRACE: 1
+
+jobs:
+    msrv:
+        name: MSRV (1.75.0)
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        steps:
+            - uses: actions/checkout@v6
+
+            - name: Install MSRV toolchain
+              # dtolnay/rust-toolchain accepts a version string as the @-ref.
+              uses: dtolnay/rust-toolchain@1.75.0
+
+            - name: Cache dependencies
+              uses: Swatinem/rust-cache@v2
+              with:
+                  # Separate cache key prevents MSRV artifacts from polluting stable jobs.
+                  key: msrv
+
+            # Deliberately omit --all-features: feature-gated deps may have a
+            # higher MSRV than the core crate promises.
+            - name: Build (MSRV)
+              run: cargo build
+
+            - name: Test (MSRV)
+              run: cargo test

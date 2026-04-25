@@ -46,6 +46,7 @@ nav:
   - Home: index.md
   - Getting Started: getting-started.md
   - Configuration: configuration.md
+  - Contributing: contributing.md
   - API Reference: "https://docs.rs/{{crate_name}}"
   - Changelog: changelog.md
 

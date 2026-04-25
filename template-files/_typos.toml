@@ -1,0 +1,6 @@
+[default.extend-words]
+# Python tool names that typos flags as unknown words.
+pycodestyle = "pycodestyle"
+pyflakes = "pyflakes"
+pyupgrade = "pyupgrade"
+isort = "isort"

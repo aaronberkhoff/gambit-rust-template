@@ -1,0 +1,31 @@
+# Synced from aaronberkhoff/gambit-rust-template. Do not edit manually.
+name: Doc tests
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+env:
+    CARGO_TERM_COLOR: always
+    RUST_BACKTRACE: 1
+
+jobs:
+    doc-test:
+        name: Doc tests
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        steps:
+            - uses: actions/checkout@v6
+
+            - name: Install Rust toolchain
+              uses: dtolnay/rust-toolchain@stable
+
+            - name: Cache dependencies
+              uses: Swatinem/rust-cache@v2
+
+            # Separate job keeps doc-example failures visible independently
+            # from unit test failures.
+            - name: Run doc tests
+              run: cargo test --doc

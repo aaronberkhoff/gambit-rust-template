@@ -1,0 +1,20 @@
+# Spell-checks source code, docs, and config files using typos.
+# Synced from aaronberkhoff/gambit-rust-template. Do not edit manually.
+name: Spell check
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+jobs:
+    typos:
+        name: typos
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        steps:
+            - uses: actions/checkout@v6
+
+            - name: Check spelling
+              uses: crate-ci/typos@v1

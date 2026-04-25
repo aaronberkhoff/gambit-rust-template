@@ -26,8 +26,12 @@ Generate a new project:
 
 ```sh
 cargo generate --git https://github.com/aaronberkhoff/gambit-rust-template \
+    --subfolder cargo-generate \
     --name my-project
 ```
+
+The `--subfolder cargo-generate` flag is required because the template files live
+in a subdirectory of this repo, not at the root.
 
 You will be prompted for:
 

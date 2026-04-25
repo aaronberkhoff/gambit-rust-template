@@ -1,0 +1,35 @@
+# Checks for accidental semver-breaking API changes on pull requests.
+# Synced from aaronberkhoff/gambit-rust-template. Do not edit manually.
+#
+# This job compares the PR branch against the merge-base of the target branch,
+# so it works before the crate is published to crates.io. Once published,
+# remove `baseline-rev` to compare against the latest crates.io release instead.
+name: Semver
+
+on:
+    pull_request:
+        branches: [main]
+
+jobs:
+    semver:
+        name: cargo semver-checks
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        steps:
+            - uses: actions/checkout@v6
+              with:
+                  # Full history is required to resolve the merge-base SHA.
+                  fetch-depth: 0
+
+            - name: Install Rust toolchain
+              uses: dtolnay/rust-toolchain@stable
+
+            - name: Cache dependencies
+              uses: Swatinem/rust-cache@v2
+
+            - name: Check semver compatibility
+              uses: obi1kenobi/cargo-semver-checks-action@v2
+              with:
+                  # Compare against the merge-base of the target branch.
+                  # Catches breaking changes introduced in this PR only.
+                  baseline-rev: ${{ github.event.pull_request.base.sha }}

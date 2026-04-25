@@ -17,9 +17,16 @@ crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 pyo3 = { version = "0.22", features = ["extension-module"] }
+pyo3-stub-gen = "0.6"
 
 [dev-dependencies]
 # Better assertion output: shows left/right values on failure.
 pretty_assertions = "1"
 # Captures tracing spans/events in tests without a global subscriber.
 tracing-test = "0.2"
+# Benchmarking framework — run with `cargo bench`, reports in target/criterion/.
+criterion = { version = "0.5", features = ["html_reports"] }
+
+[[bench]]
+name = "benchmarks"
+harness = false

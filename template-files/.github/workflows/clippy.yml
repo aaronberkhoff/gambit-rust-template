@@ -1,0 +1,32 @@
+# Synced from aaronberkhoff/gambit-rust-template. Do not edit manually.
+name: Clippy
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+env:
+    CARGO_TERM_COLOR: always
+    RUST_BACKTRACE: 1
+
+jobs:
+    clippy:
+        name: Clippy
+        runs-on: ubuntu-latest
+        timeout-minutes: 30
+        steps:
+            - uses: actions/checkout@v6
+
+            - name: Install Rust toolchain (with clippy)
+              uses: dtolnay/rust-toolchain@stable
+              with:
+                  components: clippy
+
+            - name: Cache dependencies
+              uses: Swatinem/rust-cache@v2
+
+            # -D warnings promotes all warnings to errors, enforcing a clean lint baseline.
+            - name: Run Clippy
+              run: cargo clippy --all-targets --all-features -- -D warnings

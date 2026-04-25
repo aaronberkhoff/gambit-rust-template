@@ -1,0 +1,45 @@
+# Runs the test suite under Miri to catch undefined behaviour in pure Rust code.
+# Synced from aaronberkhoff/gambit-rust-template. Do not edit manually.
+#
+# Miri cannot execute PyO3 boundary code (no Python interpreter available at
+# Miri runtime). Use --lib to target the library's unit tests, which cover
+# pure Rust logic. Integration tests that call into PyO3 are excluded.
+name: Miri
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+env:
+    CARGO_TERM_COLOR: always
+    RUST_BACKTRACE: 1
+
+jobs:
+    miri:
+        name: Miri
+        runs-on: ubuntu-latest
+        # Miri is significantly slower than a native build.
+        timeout-minutes: 60
+        steps:
+            - uses: actions/checkout@v6
+
+            - name: Install nightly Rust with Miri
+              uses: dtolnay/rust-toolchain@nightly
+              with:
+                  components: miri
+
+            - name: Cache dependencies
+              uses: Swatinem/rust-cache@v2
+              with:
+                  # Separate cache: Miri uses nightly and interprets rather
+                  # than compiling, producing different artifacts from stable.
+                  key: miri
+
+            - name: Run Miri
+              # --lib targets unit tests inside src/ only.
+              # -Zmiri-strict-provenance catches pointer provenance violations.
+              run: cargo miri test --lib
+              env:
+                  MIRIFLAGS: -Zmiri-strict-provenance

@@ -1,4 +1,4 @@
-# Dependabot keeps GitHub Actions versions up to date automatically.
+# Dependabot keeps GitHub Actions and Cargo dependencies up to date automatically.
 # Synced from aaronberkhoff/gambit-rust-template. Do not edit manually.
 version: 2
 
@@ -14,6 +14,22 @@ updates:
       # individual actions bumping their patch versions independently.
       groups:
           github-actions:
+              patterns:
+                  - "*"
+      commit-message:
+          prefix: chore
+          include: scope
+
+    - package-ecosystem: cargo
+      directory: /
+      schedule:
+          interval: weekly
+          day: monday
+          time: "06:00"
+          timezone: UTC
+      # Group all Cargo updates into one PR per week.
+      groups:
+          cargo:
               patterns:
                   - "*"
       commit-message:
